@@ -1,11 +1,27 @@
 
 const { sign, calcY } = require('./sign')
 const { validate } = require('./validate')
+const { getRandomInt } = require('./utils')
+const BigInt = require('big-integer')
+
 
 // initial
+// a 1928
 const q = 787
-const p = 31481
-const a = 1928
+const b = 40
+
+const calcA = () => {
+    const g = getRandomInt(1, p - 1)
+    const a = BigInt(g).pow(b).mod(p).toJSNumber()
+    if (a > 1) {
+        return a
+    }
+
+    return calcA()
+}
+
+const p = b * q + 1 // 31481
+const a = calcA() 
 
 // public
 const y = calcY(a, p)
